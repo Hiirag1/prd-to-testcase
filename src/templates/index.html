@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PRD/用户故事转测试用例</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            text-align: center;
+            color: white;
+            margin-bottom: 30px;
+            font-size: 2.5rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .card {
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+            padding: 30px;
+            margin-bottom: 24px;
+        }
+        .tabs {
+            display: flex;
+            margin-bottom: 20px;
+            border-bottom: 2px solid #eee;
+        }
+        .tab {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            color: #666;
+            background: none;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .tab.active {
+            color: #667eea;
+        }
+        .tab.active::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: #667eea;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            padding: 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 12px;
+            font-size: 16px;
+            font-family: inherit;
+            resize: vertical;
+            transition: border-color 0.3s;
+            line-height: 1.6;
+        }
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        textarea::placeholder {
+            color: #aaa;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 16px;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+        }
+        .btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn i {
+            margin-right: 8px;
+        }
+        .loading {
+            display: none;
+            align-items: center;
+            color: #667eea;
+            font-size: 16px;
+            margin-top: 16px;
+        }
+        .loading.show {
+            display: flex;
+        }
+        .loading i {
+            margin-right: 8px;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .result {
+            display: none;
+        }
+        .result.show {
+            display: block;
+        }
+        .result h3 {
+            color: #333;
+            margin-bottom: 16px;
+            font-size: 1.4rem;
+        }
+        .result-content {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            max-height: 600px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+        }
+        .error {
+            background: #fff5f5;
+            border-left: 4px solid #f56565;
+            padding: 16px;
+            border-radius: 8px;
+            color: #c53030;
+            margin-top: 16px;
+        }
+        .api-info {
+            background: #ebf8ff;
+            border-left: 4px solid #3182ce;
+            padding: 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .api-info h4 {
+            color: #2c5282;
+            margin-bottom: 8px;
+        }
+        .api-info p {
+            color: #4a5568;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .api-info code {
+            background: rgba(0,0,0,0.05);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 13px;
+        }
+        .api-info ul {
+            margin-top: 8px;
+            padding-left: 20px;
+        }
+        .api-info li {
+            margin-bottom: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>PRD/用户故事转测试用例</h1>
+        
+        <div class="card">
+            <div class="api-info">
+                <h4>💡 API配置说明</h4>
+                <p>本项目使用 <strong>智谱AI GLM-4-Flash</strong> 模型（永久免费），通过OpenAI兼容接口调用。</p>
+                <p>API调用位置：<code>src/llm_client.py</code> 第55-65行</p>
+                <ul>
+                    <li><strong>免费申请地址</strong>：<a href="https://open.bigmodel.cn/" target="_blank">https://open.bigmodel.cn/</a></li>
+                    <li><strong>API Key获取</strong>：注册后在控制台创建API Key</li>
+                    <li><strong>修改配置</strong>：编辑 <code>.env</code> 文件中的 <code>LLM_API_KEY</code></li>
+                    <li><strong>当前状态</strong>：使用演示Key，需替换为有效Key才能正常调用</li>
+                </ul>
+            </div>
+
+            <div class="tabs">
+                <button class="tab active" onclick="switchTab('prd')">产品需求 (PRD)</button>
+                <button class="tab" onclick="switchTab('user_story')">用户故事 (User Story)</button>
+            </div>
+
+            <textarea id="inputContent" placeholder="请输入产品需求文档（PRD）或用户故事..."></textarea>
+            
+            <button class="btn" onclick="generateTestCases()" id="generateBtn">
+                <span>生成测试用例</span>
+            </button>
+
+            <div class="loading" id="loading">
+                <span>正在生成测试用例...</span>
+            </div>
+
+            <div class="error" id="error" style="display: none;"></div>
+        </div>
+
+        <div class="card result" id="result">
+            <h3>生成的测试用例</h3>
+            <div class="result-content" id="resultContent"></div>
+        </div>
+    </div>
+
+    <script>
+        let currentType = 'prd';
+
+        function switchTab(type) {
+            currentType = type;
+            document.querySelectorAll('.tab').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab').forEach(tab => {
+                if ((type === 'prd' && tab.textContent.includes('PRD')) || 
+                    (type === 'user_story' && tab.textContent.includes('用户故事'))) {
+                    tab.classList.add('active');
+                }
+            });
+            
+            const placeholder = type === 'prd' 
+                ? '请输入产品需求文档（PRD）...\n\n示例：\n功能：用户登录模块\n需求：\n1. 用户可以通过手机号+验证码登录\n2. 用户可以通过邮箱+密码登录\n3. 连续5次输错密码需等待10分钟'
+                : '请输入用户故事...\n\n示例：\n作为一个用户，我希望能够通过手机号快捷登录，以便快速访问我的账户。';
+            
+            document.getElementById('inputContent').placeholder = placeholder;
+        }
+
+        async function generateTestCases() {
+            const content = document.getElementById('inputContent').value.trim();
+            const generateBtn = document.getElementById('generateBtn');
+            const loading = document.getElementById('loading');
+            const error = document.getElementById('error');
+            const result = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+
+            if (!content) {
+                showError('请输入内容后再生成');
+                return;
+            }
+
+            generateBtn.disabled = true;
+            loading.classList.add('show');
+            error.style.display = 'none';
+            result.classList.remove('show');
+
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 120000);
+
+            try {
+                console.log('开始发送请求到 /api/generate');
+                
+                const response = await fetch('/api/generate', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        content: content,
+                        type: currentType
+                    }),
+                    signal: controller.signal
+                });
+
+                console.log('收到响应，状态码:', response.status);
+
+                if (!response.ok) {
+                    throw new Error('HTTP错误: ' + response.status);
+                }
+
+                const data = await response.json();
+                console.log('响应数据:', data);
+
+                if (data.error) {
+                    showError(data.error);
+                } else if (data.success && data.content) {
+                    resultContent.textContent = data.content;
+                    result.classList.add('show');
+                } else {
+                    showError('生成失败，请重试。响应数据: ' + JSON.stringify(data));
+                }
+            } catch (e) {
+                if (e.name === 'AbortError') {
+                    showError('请求超时，请重试');
+                } else {
+                    showError('网络请求失败：' + e.message);
+                }
+                console.error('请求异常:', e);
+            } finally {
+                clearTimeout(timeoutId);
+                generateBtn.disabled = false;
+                loading.classList.remove('show');
+                console.log('请求结束');
+            }
+        }
+
+        function showError(message) {
+            const error = document.getElementById('error');
+            error.textContent = message;
+            error.style.display = 'block';
+        }
+
+        switchTab('prd');
+    </script>
+</body>
+</html>

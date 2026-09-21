@@ -1,0 +1,66 @@
+# ===== 环境变量与密钥 =====
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# ===== Python 编译缓存 =====
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# ===== Python 虚拟环境 =====
+venv/
+.venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ===== Python 打包/分发 =====
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+wheels/
+sdist/
+
+# ===== 测试与覆盖率 =====
+.pytest_cache/
+.coverage
+.coverage.*
+htmlcov/
+coverage.xml
+.tox/
+.nox/
+.cache
+
+# ===== Jupyter =====
+.ipynb_checkpoints/
+
+# ===== IDE / 编辑器 =====
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# ===== 操作系统 =====
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# ===== 日志与临时文件 =====
+*.log
+*.bak
+*.tmp
+*.temp
+
+# ===== 项目本地数据 =====
+*.sqlite3
+*.db
+local_settings.py
