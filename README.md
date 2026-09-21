@@ -53,40 +53,40 @@ response = self.client.chat.completions.create(
 
 1. **克隆项目**
 
-```bash
-git clone <>
-cd prd-to-testcase
-```
+   ```bash
+   git clone https://github.com/Hiirag1/prd-to-testcase.git
+   cd prd-to-testcase
+   ```
 
-1. **安装依赖**
+2. **安装依赖**
 
-```bash
-pip install -r requirements.txt
-```
+   ```bash
+   pip install -r requirements.txt
+   ```
 
-1. **配置API Key**
+3. **配置API Key**
 
-```bash
-cp .env.example .env
-```
+   ```bash
+   cp .env.example .env
+   ```
 
-编辑 `.env` 文件，填入API Key：
+   编辑 `.env` 文件，填入API Key：
 
-```env
-LLM_API_KEY=your_api_key_here
-LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/
-LLM_MODEL=glm-4-flash
-```
+   ```env
+   LLM_API_KEY=your_api_key_here
+   LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/
+   LLM_MODEL=glm-4-flash
+   ```
 
-1. **启动应用**
+4. **启动应用**
 
-```bash
-python -m src.app
-```
+   ```bash
+   python -m src.app
+   ```
 
-1. **访问应用**
+5. **访问应用**
 
-打开浏览器访问 `http://localhost:5000`
+   打开浏览器访问 `http://localhost:5000`
 
 ## 使用示例
 
