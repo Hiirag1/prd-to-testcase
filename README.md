@@ -78,6 +78,8 @@ response = self.client.chat.completions.create(
    LLM_MODEL=glm-4-flash
    ```
 
+   📌 智谱 AI API Key 申请地址：https://open.bigmodel.cn/usercenter/apikeys
+
 4. **启动应用**
 
    ```bash
@@ -87,6 +89,56 @@ response = self.client.chat.completions.create(
 5. **访问应用**
 
    打开浏览器访问 `http://localhost:5000`
+
+## 大模型配置
+
+本项目默认使用**智谱 AI GLM-4-Flash**，但代码基于 OpenAI 兼容接口实现，可无缝替换为其他 OpenAI 兼容的大模型厂商。
+
+### 替换方法
+
+修改 `.env` 文件中的三个变量即可：
+
+| 变量 | 说明 |
+|---|---|
+| `LLM_API_KEY` | 厂商的 API Key |
+| `LLM_BASE_URL` | 厂商的 API 端点 URL |
+| `LLM_MODEL` | 厂商支持的模型名 |
+
+### 常见厂商配置示例
+
+**智谱 AI（默认）**
+
+```env
+LLM_API_KEY=智谱_api_key
+LLM_BASE_URL=https://open.bigmodel.cn/api/paas/v4/
+LLM_MODEL=glm-4-flash
+```
+
+**OpenAI**
+
+```env
+LLM_API_KEY=sk-xxxx
+LLM_BASE_URL=https://api.openai.com/v1
+LLM_MODEL=gpt-4o-mini
+```
+
+**DeepSeek**
+
+```env
+LLM_API_KEY=sk-xxxx
+LLM_BASE_URL=https://api.deepseek.com
+LLM_MODEL=deepseek-chat
+```
+
+**Moonshot（Kimi）**
+
+```env
+LLM_API_KEY=sk-xxxx
+LLM_BASE_URL=https://api.moonshot.cn/v1
+LLM_MODEL=moonshot-v1-8k
+```
+
+> 💡 只要厂商提供 OpenAI 兼容的 `/v1/chat/completions` 接口，都可以直接替换使用，无需修改代码。
 
 ## 使用示例
 
